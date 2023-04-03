@@ -20,3 +20,17 @@ N6-methyladenosine (m6A) is the most prevalent and functionally significant mRNA
 ### 1. Develop a gold standard benchmark dataset
 
 ### 1.1. 
+
+
+## Dependencies and versions
+
+Software | Version | Link
+--- | --- | ---
+sratoolkit | 2.11.3 | https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.11.3/sratoolkit.2.11.3-ubuntu64.tar.gz
+cutadapt | 2.8 | https://files.pythonhosted.org/packages/94/e2/de61c38fbe04933045287fc27bfb56eebc388b16ee8e815ef6bf9f68b4ad/cutadapt-2.8.tar.gz
+fastqc | 0.11.9 | https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
+trim_galore | 0.6.6 | https://github.com/FelixKrueger/TrimGalore/archive/0.6.6.tar.gz
+hisat2 | 2.1.0 | ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-2.1.0-Linux_x86_64.zip
+samtools | 1.10 | https://github.com/samtools/samtools/releases/download/1.10/samtools-1.10.tar.bz2
+
+
