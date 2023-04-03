@@ -1,10 +1,9 @@
 # A Machine Learning-Based Calibration Method for Enhanced Accuracy and Consistency in m6A Epitranscriptome Mapping
-Source code for the main results in our paper
 
-![alt text](./figure/Graphical abstract.png "Graphical_abstract")
+![alt text](./figure/Graphical%20abstract.png "Graphical abstract")
 
 ## Table of Contents 
-- [Background](#General-description)
+- [Background](#Background)
 - [Pepline](#General-description)
   - [1. Develop a gold standard benchmark dataset ](#1-Develop-a-gold-standard-benchmark-dataset-)
   - [2. Prediction of RNA modified sites](#1-prediction-of-rna-modified-sites)
