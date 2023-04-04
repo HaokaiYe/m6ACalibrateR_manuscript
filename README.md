@@ -127,25 +127,18 @@ We further evaluated the performance of our calibration model on other types of 
   - samtools 1.10: https://github.com/samtools/samtools/releases/download/1.10/samtools-1.10.tar.bz2
 
 - R packages
-  - BSgenome.Hsapiens.UCSC.hg38 1.4.3
-  - TxDb.Hsapiens.UCSC.hg38.knownGene 3.13.0
-  - phastCons100way.UCSC.hg38 3.7.1
-  - exomePeak2 1.9.1
-  - predictiveFeatures 0.99.94
-  - h2o 3.34.0.3
-  - randomForest 4.7.1.1
-  - pROC 1.18.0
-  - PRROC 1.3.1
-  - stringr 1.4.0
-  - rtracklayer 1.52.1
-  - SummarizedExperiment 1.22.0
-  - AnnotationHub 3.0.1
-  - ggplot2 3.4.0
-  - ggrepel 0.9.1
-  - ggtree 3.0.4
-  - aplot 0.1.4
-  - reshape2 1.4.4
-  - Guitar 2.8.0
+  
+    | Package Name                        | Version     | Package Name                        | Version     |
+    |-------------------------------------|-------------|-------------------------------------|-------------|
+    | exomePeak2                          | 1.9.1       | Guitar                              | 2.8.0       |
+    | predictiveFeatures                  | 0.99.94     | pROC                                | 1.18.0      |
+    | SummarizedExperiment                | 1.22.0      | PRROC                               | 1.3.1       |
+    | phastCons100way.UCSC.hg38           | 3.7.1       | ggplot2                             | 3.4.0       |
+    | BSgenome.Hsapiens.UCSC.hg38         | 1.4.3       | ggrepel                             | 0.9.1       |
+    | TxDb.Hsapiens.UCSC.hg38.knownGene   | 3.13.0      | ggtree                              | 3.0.4       |
+    | stringr                             | 1.4.0       | aplot                               | 0.1.4       |
+    | h2o                                 | 3.34.0.3    | reshape2                            | 1.4.4       |
+    | randomForest                        | 4.7.1.1     | rtracklayer                         | 1.52.1      |
 
 
 ## Citation: 
