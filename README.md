@@ -118,13 +118,37 @@ We further evaluated the performance of our calibration model on other types of 
 
 ## Dependencies and versions
 
-Software | Version | Link
---- | --- | ---
-sratoolkit | 2.11.3 | https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.11.3/sratoolkit.2.11.3-ubuntu64.tar.gz
-cutadapt | 2.8 | https://files.pythonhosted.org/packages/94/e2/de61c38fbe04933045287fc27bfb56eebc388b16ee8e815ef6bf9f68b4ad/cutadapt-2.8.tar.gz
-fastqc | 0.11.9 | https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
-trim_galore | 0.6.6 | https://github.com/FelixKrueger/TrimGalore/archive/0.6.6.tar.gz
-hisat2 | 2.1.0 | ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-2.1.0-Linux_x86_64.zip
-samtools | 1.10 | https://github.com/samtools/samtools/releases/download/1.10/samtools-1.10.tar.bz2
+- Command-line tools
+  - sratoolkit 2.11.3: https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.11.3/sratoolkit.2.11.3-ubuntu64.tar.gz
+  - cutadapt 2.8: https://files.pythonhosted.org/packages/94/e2/de61c38fbe04933045287fc27bfb56eebc388b16ee8e815ef6bf9f68b4ad/cutadapt-2.8.tar.gz
+  - fastqc 0.11.9: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
+  - trim_galore 0.6.6: https://github.com/FelixKrueger/TrimGalore/archive/0.6.6.tar.gz
+  - hisat2 2.1.0: ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-2.1.0-Linux_x86_64.zip
+  - samtools 1.10: https://github.com/samtools/samtools/releases/download/1.10/samtools-1.10.tar.bz2
+
+- R packages
+  - BSgenome.Hsapiens.UCSC.hg38 1.4.3
+  - TxDb.Hsapiens.UCSC.hg38.knownGene 3.13.0
+  - phastCons100way.UCSC.hg38 3.7.1
+  - exomePeak2 1.9.1
+  - predictiveFeatures 0.99.94
+  - h2o 3.34.0.3
+  - randomForest 4.7.1.1
+  - pROC 1.18.0
+  - PRROC 1.3.1
+  - stringr 1.4.0
+  - rtracklayer 1.52.1
+  - SummarizedExperiment 1.22.0
+  - AnnotationHub 3.0.1
+  - ggplot2 3.4.0
+  - ggrepel 0.9.1
+  - ggtree 3.0.4
+  - aplot 0.1.4
+  - reshape2 1.4.4
+  - Guitar 2.8.0
 
 
+## Citation: 
+
+## Contact
+Please open an issue in the GitHub repo if you have any questions/doubts/suggestions about how to use this software. Thanks!
