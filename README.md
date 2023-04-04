@@ -1,7 +1,9 @@
 # A Machine Learning-Based Calibration Method for Enhanced Accuracy and Consistency in m6A Epitranscriptome Mapping
 
-![alt text](./figure/Graphical%20abstract.png "Graphical abstract"){:height="50%" width="50%"}
+![alt text](./figure/Graphical%20abstract.png "Graphical abstract")
 
+ <img src="./figure/Graphical%20abstract.png" width = "700" alt="Graphical abstract" align=center />
+ 
 ## Table of Contents 
 - [Background](#Background)
 - [Pepline](#Pepline)
