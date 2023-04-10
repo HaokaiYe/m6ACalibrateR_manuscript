@@ -6,7 +6,7 @@
 
 ## Table of Contents 
 - [Background](#Background)
-- [Pepline](#Pepline)
+- [Workflow](#Workflow)
   - [1. Develop a gold standard benchmark dataset](#1-Develop-a-gold-standard-benchmark-dataset)
   - [2. Comparative analysis of ML models and feature sets](#2-Comparative-analysis-of-ML-models-and-feature-sets)
   - [3. Similar sequence content accounts for the generation of false m6A](#3-Similar-sequence-content-accounts-for-the-generation-of-false-m6A)
@@ -27,27 +27,27 @@
 - We recommend incorporating this calibration approach into peak calling processes to standardize putative m6A sites from various antibody-based mapping techniques. 
 - Our method provides a systematic solution to the lack of consistency and reproducibility in m6A maps, paving the way for more precise epitranscriptomic studies.
 
-## Pepline 
+## Workflow 
 *Using SYSY dataset as example*
 
 ### 1. Develop a gold standard benchmark dataset
 
-1.1. Download the raw sequencing data from NCBI GEO (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE151028).
+1.1. Download the raw sequencing data from [NCBI GEO](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE151028)
 
-__*All SRR info are listed in SRR_list.txt.*__
+- All SRR info are listed in `SRR_list.txt`.
 
 ```{bash}
 fastq-dump --split-3 SRR14765584 -O ~/fastq
 ```
 
-1.2. Eliminate adaptors and nucleotides of low quality using Trim Galore.
+1.2. Eliminate adaptors and nucleotides of low quality using Trim Galore
 ```{bash}
 trim_galore --stringency 3 --paired -o ~/trimmed ~/fastq/SRR14765584_1.fastq ~/fastq/SRR14765584_2.fastq
 ```
 
-1.3. Match the processed reads to the reference genome UCSC hg38 using HISAT2.
+1.3. Match the processed reads to the reference genome UCSC hg38 using HISAT2
 
-UCSC hg38 genome index was downloaded from http://daehwankimlab.github.io/hisat2/download/
+- UCSC hg38 genome index was downloaded from http://daehwankimlab.github.io/hisat2/download/
 
 ```{bash}
 cd ~/index/hg38
@@ -64,7 +64,11 @@ samtools view -S ~/sam/SRR14765584.sam -b > ~/bam/SRR14765584.bam
 
 1.5. Perform motif-based peak calling using exomePeak2
 
-Motif-based peak calling: replacing sliding windows with single base sites of the **DRACH consensus motif**, while keeping the rest of the peak calling procedures the same.
+- Motif-based peak calling: replacing sliding windows with single base sites of the **DRACH consensus motif**, while keeping the rest of the peak calling procedures the same.
+
+> The code implementation for peak calling can be found in `./code/peak_calling.R`. The resulting peaks are stored in `./rds/peaks_IVT.rds` and `./rds/peaks_mRNA.rds`.
+
+---
 
 As IVT RNA can be assured to be devoid of any modifications, it can serve as a negative control for the mRNA sample. Therefore, modification sites identified exclusively in the mRNA sample were considered **true positives**, while all sites identified in the IVT sample were deemed **false positives**.
 
@@ -72,47 +76,74 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 ### 2. Comparative analysis of ML models and feature sets
 2.1. Choose model
 
-We first considered three popular machine learning models (GLM, XGBoost, and Random Forest) and selected the one that best performed on the benchmark datasets.
+- We considered three popular machine learning models (GLM, XGBoost, and Random Forest) and selected the one that best performed on the benchmark datasets.
+
+> The code implementation for comparing models can be found in `./code/compare_models.R`. The resulting performances are stored in `./rds/compare_models.rds`.
 
 2.2. Choose feature set
 
-We compared the performance of three feature sets to select the most suitable ones for training: sequence features, genomic features, and a combination of both. 
+- We compared the performance of three feature sets to select the most suitable ones for training: sequence features, genomic features, and a combination of both. 
+
+2.2.1 Sequence-derived features
+
+- We encoded the sequence of the 50 base pairs upstream and downstream of the m6A site using one-hot encoding (e.g. A – [1, 0, 0, 0], U – [0, 1, 0, 0], C – [0, 0, 1, 0], G – [0, 0, 0, 1]).
+
+2.2.2 Genome-derived features
+
+- We interactively extracted various genome properties from the exon-only and intron-included versions of genomic regions of individual exons, genes, transcripts, 5'UTR, 3'UTR, and CDS. 
+ 
+> The code implementation for comparing feature sets can be found in `./code/compare_feature_sets.R`. The resulting performances are stored in `./rds/compare_feature_sets.rds`.
 
 
 ### 3. Similar sequence content accounts for the generation of false m6A
 3.1. LR models
 
-We constructed a logistic regression for nucleotides surrounding the m6A site, represented by one-hot encoding, to calculate the coefficient value for each nucleotide at a given position.
+- We constructed a logistic regression for nucleotides surrounding the m6A site, represented by one-hot encoding, to calculate the coefficient value for each nucleotide at a given position.
 
 3.2. Correlation test
 
-We then employed correlation tests to verify the correlation between logistic regression coefficients fitted on high-confidence sites and false-positive sites, respectively.
+- We then employed correlation tests `R = 0.7472, rho = 0.7947` to verify the correlation between logistic regression coefficients fitted on high-confidence sites and false-positive sites.
 
 3.3. Chi-squared test
 
-We conducted a Chi-squared test (p = 2.155e-07) to assess the goodness of fit between observed frequencies and expected probabilities (1/4 for the same rank, 3/4 for different ranks) under the assumption of random association.
+- We conducted a Chi-squared test `p = 2.155e-07` to assess the goodness of fit between observed frequencies and expected probabilities (1/4 for the same rank, 3/4 for different ranks) under the assumption of random association.
+
+|         |  same rank  |  diff rank  |
+|:-------:|-----------:|-----------:|
+| Observed|       17.00|        7.00|
+| Expected|        0.25|        0.75|
+
+> The code implementation for analyzing the sequence content can be found in `./code/coefficients.R`.
 
 ### 4. Genomic features enable recognition of false m6A
 4.1 Feature selection
 
-Reverse feature selection was implemented to reduce the dimensionality of the data and identify the most effective genomic features for calibrating m6A sites.
+- We implemented reverse feature selection to reduce the dimensionality of the data and identify the most effective genomic features for calibrating m6A sites.
+
+> The code implementation for feature selection can be found in `./code/feature_selection.R`. The resulting performances are stored in `./rds/feature_selection.rds`.
 
 4.2. Feature maps of the top 2 predictors
 
-The top two features (exon length and mRNA length) consistently explained the most significant portion of the model performances.
+- The top two features (exon length and mRNA length) consistently explained the most significant portion of the model performances.
 
 ### 5. Cross-validation and technical independent verification
 5.1. Build up the final models
 
-We only selected the top genomic features that give the maximum AUC in each Random Forest model.
+- We only selected the top genomic features that give the maximum AUC in each Random Forest model.
+
+> The code implementation for cross validation can be found in `./code/final_models.R`. The resulting performances are stored in `./rds/final_models.rds`.
 
 5.2. Cross validation
 
-To assess the generalizability of the classifiers.
+- We conducted cross-validation on benchmark datasets to assess the generalizability of the classifiers.
+
+> The code implementation for cross validation can be found in `./code/cross_validation.R`. The resulting performances are stored in `./rds/cross_validation.rds`.
 
 5.3. Verification
 
-We further evaluated the performance of our calibration model on other types of m6A mapping techniques for technical independent validations. 
+- We further evaluated the performance of our calibration model on other types of m6A mapping techniques for technical independent validations. 
+
+> The code implementation for technical independent verification can be found in `./code/verification.R`.
 
 
 
