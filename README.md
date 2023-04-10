@@ -1,6 +1,6 @@
 # A Machine Learning-Based Calibration Method for Enhanced Accuracy and Consistency in m6A Epitranscriptome Mapping
 
- <p align="center">
+<p align="center">
   <img src="./figure/Graphical%20abstract.png" width="700" alt="Graphical abstract">
 </p>
 
@@ -24,8 +24,8 @@
 - By integrating **genomic features**, we identify and eliminate non-specific antibody enrichment-induced false positives in MeRIP-seq, generating a high-accuracy m6A epitranscriptome map. 
 - The model interpretation results revealed that false positives predominantly occur on **short exons and mRNAs** with **similar sequence contexts**. 
 - Furthermore, our calibration function can be applied to other **antibody-dependent base resolution techniques** (e.g., miCLIP and m6ACLIP) to improve their **consistency** with antibody-independent techniques. 
-- We recommend incorporating this calibration approach into peak calling processes to standardize putative m6A sites from various antibody-based mapping techniques. 
-- Our method provides a systematic solution to the lack of consistency and reproducibility in m6A maps, paving the way for more precise epitranscriptomic studies.
+- We recommend incorporating this calibration approach into **peak calling** processes to standardize putative m6A sites from various **antibody-based mapping techniques**. 
+- Our method provides a systematic solution to the lack of **consistency** and **reproducibility** in m6A maps, paving the way for more precise epitranscriptomic studies.
 
 ## Workflow 
 *Using SYSY dataset as example*
@@ -78,6 +78,10 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 - We considered three popular machine learning models (GLM, XGBoost, and Random Forest) and selected the one that best performed on the benchmark datasets.
 
+<p align="center">
+  <img src="./figure/compare_models.png" alt="Compare models">
+</p>
+
 > The code implementation for comparing models can be found in `./code/compare_models.R`. The resulting performances are stored in `./rds/compare_models.rds`.
 
 2.2. Choose feature set
@@ -92,6 +96,10 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 - We interactively extracted various genome properties from the exon-only and intron-included versions of genomic regions of individual exons, genes, transcripts, 5'UTR, 3'UTR, and CDS. 
  
+<p align="center">
+  <img src="./figure/compare_feature_sets.png" alt="Compare feature sets">
+</p>
+
 > The code implementation for comparing feature sets can be found in `./code/compare_feature_sets.R`. The resulting performances are stored in `./rds/compare_feature_sets.rds`.
 
 
@@ -100,9 +108,18 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 - We constructed a logistic regression for nucleotides surrounding the m6A site, represented by one-hot encoding, to calculate the coefficient value for each nucleotide at a given position.
 
+<p align="center">
+  <img src="./figure/HC_coefficients.png" alt="HC coefficients">
+  <img src="./figure/FP_coefficients.png" alt="FP coefficients">
+</p>
+
 3.2. Correlation test
 
 - We then employed correlation tests `R = 0.7472, rho = 0.7947` to verify the correlation between logistic regression coefficients fitted on high-confidence sites and false-positive sites.
+ 
+<p align="center">
+  <img src="./figure/cor_test.png" alt="Correlation test.png">
+</p>
 
 3.3. Chi-squared test
 
