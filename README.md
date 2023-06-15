@@ -7,8 +7,8 @@
 ## Table of Contents 
 - [Background](#Background)
 - [Workflow](#Workflow)
-  - [1. Training Data used in m6ACali](#1-Develop-a-gold-standard-benchmark-dataset)
-  - [2. Comparing Performance of ML Models and Feature Sets](#2-Comparative-analysis-of-ML-models-and-feature-sets)
+  - [1. Training Data used in m6ACali](#1-Training-Data-used-in-m6ACali)
+  - [2. Comparing Performance of ML Models and Feature Sets](#2-Comparing-Performance-of-ML-models-and-feature-sets)
   - [3. Impact of Exon Length and mRNA Length on Identifying False Positive m6A](#3-Similar-sequence-content-accounts-for-the-generation-of-false-m6A)
   - [4. m6ACali Accurately Identifies False Positive m6A Sites](#4-Genomic-features-enable-recognition-of-false-m6A)
   - [5. m6ACali Generalizes to Independent Datasets and New Techniques](#5-Cross-validation-and-technical-independent-verification)
