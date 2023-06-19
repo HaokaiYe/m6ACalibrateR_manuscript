@@ -1,17 +1,20 @@
-# A Machine Learning-Based Calibration Method for Enhanced Accuracy and Consistency in m6A Epitranscriptome Mapping
+# M6A-Cali: Machine Learning-Based Calibration of m6A Epitranscriptome Mapping that Corrects Antibody Non-specific Binding
 
 <p align="center">
   <img src="./figure/Graphical%20abstract.png" width="700" alt="Graphical abstract">
 </p>
+![image](https://github.com/HaokaiYe/m6ACalibrateR_manuscript/assets/60866857/bf058174-17be-46e1-9f6c-355cb5533312)
 
 ## Table of Contents 
 - [Background](#Background)
 - [Workflow](#Workflow)
-  - [1. Develop a gold standard benchmark dataset](#1-Develop-a-gold-standard-benchmark-dataset)
-  - [2. Comparative analysis of ML models and feature sets](#2-Comparative-analysis-of-ML-models-and-feature-sets)
-  - [3. Similar sequence content accounts for the generation of false m6A](#3-Similar-sequence-content-accounts-for-the-generation-of-false-m6A)
-  - [4. Genomic features enable recognition of false m6A](#4-Genomic-features-enable-recognition-of-false-m6A)
-  - [5. Cross-validation and technical independent verification](#5-Cross-validation-and-technical-independent-verification)
+  - [1. Training Data used in m6ACali](#1-Training-Data-used-in-m6ACali)
+  - [2. Comparing Performance of ML Models and Feature Sets](#2-Comparing-Performance-of-ML-models-and-feature-sets)
+  - [3. Impact of Exon Length and mRNA Length on Identifying False Positive m6A](#3-Impact-of-Exon-Length-and-mRNA-Length-on-Identifying-False-Positive-m6A)
+  - [4. m6ACali Accurately Identifies False Positive m6A Sites](#4-m6ACali-Accurately-Identifies-False-Positive-m6A-Sites)
+  - [5. m6ACali Generalizes to Independent Datasets and New Techniques](#5-m6ACali-Generalizes-to-Independent-Datasets-and-New-Techniques)
+  - [6. m6ACali Achieves Higher Performance under Rigorous Threshold](#6-m6ACali-Achieves-Higher-Performance-under-Rigorous-Threshold)
+  - [7. Randomly Capturing High-coverage Consensus Sequences to Reconstruct False Positive m6A Landscapes](#7-Randomly-Capturing-High-coverage-Consensus-Sequences-to-Reconstruct-False-Positive-m6A-Landscapes)
 - [Dependencies and versions](#Dependencies-and-versions)
 - [Citation](#Citation) 
 - [Contact](#Contact) 
@@ -30,7 +33,8 @@
 ## Workflow 
 *Using SYSY dataset as example*
 
-### 1. Develop a gold standard benchmark dataset
+
+### 1. Training Data used in m6ACali
 
 1.1. Download the raw sequencing data from [NCBI GEO](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE151028)
 
@@ -73,7 +77,7 @@ samtools view -S ~/sam/SRR14765584.sam -b > ~/bam/SRR14765584.bam
 As IVT RNA can be assured to be devoid of any modifications, it can serve as a negative control for the mRNA sample. Therefore, modification sites identified exclusively in the mRNA sample were considered **true positives**, while all sites identified in the IVT sample were deemed **false positives**.
 
 
-### 2. Comparative analysis of ML models and feature sets
+### 2. Comparing Performance of ML Models and Feature Sets
 2.1. Choose model
 
 - We considered three popular machine learning models (GLM, XGBoost, and Random Forest) and selected the one that best performed on the benchmark datasets.
@@ -94,7 +98,8 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 2.2.2 Genome-derived features
 
-- We interactively extracted various genome properties from the exon-only and intron-included versions of genomic regions of individual exons, genes, transcripts, 5'UTR, 3'UTR, and CDS. 
+- We interactively extracted various genome properties from the exon-only and intron-included versions of genomic regions of individual exons, introns, genes, transcripts, 5'UTR, 3'UTR, and coding sequences. 
+- The extracted genomic properties for each region include an overlapping index, region length, distance to the regions’ 5'/3' ends, and relative positions of annotations within regions (0 for left most and 1 for right most).
  
 <p align="center">
   <img src="./figure/compare_feature_sets.png" alt="Compare feature sets">
@@ -103,8 +108,73 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 > The code implementation for comparing feature sets can be found in `./code/compare_feature_sets.R`. The resulting performances are stored in `./rds/compare_feature_sets.rds`.
 
 
-### 3. Similar sequence content accounts for the generation of false m6A
-3.1. LR models
+### 3. Impact of Exon Length and mRNA Length on Identifying False Positive m6A
+3.1 Feature selection
+
+- We implemented reverse feature selection to reduce the dimensionality of the data and identify the most effective genomic features for calibrating m6A sites.
+
+> The code implementation for feature selection can be found in `./code/feature_selection.R`. The resulting performances are stored in `./rds/feature_selection.rds`.
+
+3.2. Feature maps of the top 2 predictors
+
+- The top two features (exon length and mRNA length) consistently explained the most significant portion of the model performances.
+
+> The code implementation for visualizing top 2 features can be found in `./code/top2features.R`. The resulting performances are stored in `./rds/top2features.rds`.
+
+### 4. m6ACali Accurately Identifies False Positive m6A Sites
+4.1. Build up the final models
+
+- We only selected the top genomic features that give the maximum AUC in each Random Forest model.
+
+> The code implementation for cross validation can be found in `./code/final_models.R`. The resulting performances are stored in `./rds/final_models.rds`.
+
+4.2. Thorough analysis across DRACH motifs
+
+- We carried out a thorough analysis across all DRACH consensus motifs 
+
+> The code implementation for thorough DRACH analysis can be found in `./code/color_code.R`.
+
+4.3. Cross validation
+
+- We conducted cross-validation on benchmark datasets to assess the generalizability of the classifiers.
+
+> The code implementation for cross validation can be found in `./code/cross_validation.R`. The resulting performances are stored in `./rds/cross_validation.rds`.
+
+### 5. m6ACali Generalizes to Independent Datasets and New Techniques
+
+*To test m6ACali's applicability to new antibody-based datasets, we ran the model on 24 MeRIP-Seq and 25 single-base resolution samples*
+
+5.1. Consistency with antibody-independent data
+
+- In light of the potential for non-specific antibody binding to induce false positives in antibody-dependent data, our objective was to examine the efficacy of our calibration model in enhancing the consistency of m6A site detection with antibody-independent data. 
+
+> The code implementation for consistency can be found in `./code/consistency.R`. The resulting performances are stored in `./rds/consistency.rds`.
+
+5.2. Validation of predicted false positives 
+
+- Most of the predicted FPs in newly analyzed datasets were confirmed by in vitro transcribed (IVT) benchmark datasets, regardless of originating from different detection experiments.
+
+> The code implementation for validation of predicted FP can be found in `./code/cali_befo_aft.R` ("Validation of predicted false positives" part).
+
+### 6. m6ACali Achieves Higher Performance under Rigorous Threshold
+
+6.1. Distribution of high-confidence m6A sites
+
+- After removing false positives, we noted that the calibrated antibody-based m6A sites exhibited a notable enrichment around stop codons, a characteristic that becomes more pronounced with stricter calibration thresholds
+
+> The code implementation for distribution can be found in `./code/cali_befo_aft.R` ("Topology gradient" part).
+
+6.2. Sensitivity of true m6A site identification
+
+- We turned to antibody-free data, which are devoid of non-specific antibody binding events, as the benchmark to assess our model's capacity in recognizing true m6A sites.
+
+> The code implementation for sensitivity can be found in `./code/cali_befo_aft.R` ("Sensitivity  gradient" and "Dot plot" parts).
+
+### 7. Randomly Capturing High-coverage Consensus Sequences to Reconstruct False Positive m6A Landscapes
+
+7.1. Similar sequence content amongst true positive and false positive m6A sites
+
+7.1.1 LR models
 
 - We constructed a logistic regression for nucleotides surrounding the m6A site, represented by one-hot encoding, to calculate the coefficient value for each nucleotide at a given position.
 
@@ -113,7 +183,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
   <img src="./figure/FP_coefficients.png" alt="FP coefficients">
 </p>
 
-3.2. Correlation test
+7.1.2 Correlation test
 
 - We then employed correlation tests `R = 0.7472, rho = 0.7947` to verify the correlation between logistic regression coefficients fitted on high-confidence sites and false-positive sites.
  
@@ -121,7 +191,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
   <img src="./figure/cor_test.png" alt="Correlation test.png">
 </p>
 
-3.3. Chi-squared test
+7.1.3 Chi-squared test
 
 - We conducted a Chi-squared test `p = 2.155e-07` to assess the goodness of fit between observed frequencies and expected probabilities (1/4 for the same rank, 3/4 for different ranks) under the assumption of random association.
 
@@ -132,35 +202,23 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for analyzing the sequence content can be found in `./code/coefficients.R`.
 
-### 4. Genomic features enable recognition of false m6A
-4.1 Feature selection
+7.2. Reconstruction of false positive m6A landscapes
 
-- We implemented reverse feature selection to reduce the dimensionality of the data and identify the most effective genomic features for calibrating m6A sites.
+7.2.1 Quantifying mapped reads
 
-> The code implementation for feature selection can be found in `./code/feature_selection.R`. The resulting performances are stored in `./rds/feature_selection.rds`.
+- We extracted DRACH motifs and subsequently count the reads overlapped to each of these motifs.
 
-4.2. Feature maps of the top 2 predictors
+7.2.2 Establishing high-coverage motifs
 
-- The top two features (exon length and mRNA length) consistently explained the most significant portion of the model performances.
+- To depict a more realistic scenario, we directed our attention towards DRACH motifs with high-coverage (non-methylated motifs with read count in input samples exceeding the average count of true positive m6A sites).
 
-### 5. Cross-validation and technical independent verification
-5.1. Build up the final models
+7.2.3 Metagene plot
 
-- We only selected the top genomic features that give the maximum AUC in each Random Forest model.
+- We surmise that the generation mechanism of FP might be interpreted as m6A-specific antibodies randomly capturing consensus sequences, where the probability of this capture is further influenced by the read coverage.
 
-> The code implementation for cross validation can be found in `./code/final_models.R`. The resulting performances are stored in `./rds/final_models.rds`.
+> The code implementation for metagene plot can be found in `./code/FP_topologys.R`.
 
-5.2. Cross validation
 
-- We conducted cross-validation on benchmark datasets to assess the generalizability of the classifiers.
-
-> The code implementation for cross validation can be found in `./code/cross_validation.R`. The resulting performances are stored in `./rds/cross_validation.rds`.
-
-5.3. Verification
-
-- We further evaluated the performance of our calibration model on other types of m6A mapping techniques for technical independent validations. 
-
-> The code implementation for technical independent verification can be found in `./code/verification.R`.
 
 
 
