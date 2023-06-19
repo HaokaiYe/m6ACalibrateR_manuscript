@@ -3,6 +3,7 @@
 <p align="center">
   <img src="./figure/Graphical%20abstract.png" width="700" alt="Graphical abstract">
 </p>
+![image](https://github.com/HaokaiYe/m6ACalibrateR_manuscript/assets/60866857/bf058174-17be-46e1-9f6c-355cb5533312)
 
 ## Table of Contents 
 - [Background](#Background)
