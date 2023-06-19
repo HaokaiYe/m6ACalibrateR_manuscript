@@ -1,7 +1,7 @@
 # M6A-Cali: Machine Learning-Based Calibration of m6A Epitranscriptome Mapping that Corrects Antibody Non-specific Binding
 
 <p align="center">
-  <img src="./plots/Graphical%20abstract.png" width="700" alt="Graphical abstract">
+  <img src="./plots/Geographic%20abstract.png" width="700" alt="Graphical abstract">
 </p>
 
 ## Table of Contents 
