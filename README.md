@@ -11,8 +11,8 @@
   - [2. Evaluating the Efficacy of Various ML Models and Feature Sets](#2-Evaluating-the-Efficacy-of-Various-ML-Models-and-Feature-Sets)
   - [3. Influence of Exon Length and mRNA Length in False Positive m6A Identification](#3-Influence-of-Exon-Length-and-mRNA-Length-in-False-Positive-m6A-Identification)
   - [4. m6ACali: An Accurate Identifier for False Positive m6A Sites](#4-m6ACali-An-Accurate-Identifier-for-False-Positive-m6A-Sites)
-  - [5. m6ACali's Broad Applicability: Independent Datasets and Novel Techniques](#5-m6ACali's-Broad-Applicability-Independent-Datasets-and-Novel-Techniques)
-  - [6. m6ACali's Enhanced Performance under Stringent Thresholds](#6-m6ACali's-Enhanced-Performance-under-Stringent-Thresholds)
+  - [5. m6ACali's Broad Applicability on Independent Datasets and Novel Techniques](#5-Broad-Applicability-on-Independent-Datasets-and-Novel-Techniques)
+  - [6. m6ACali's Enhanced Performance under Stringent Thresholds](#6-Enhanced-Performance-under-Stringent-Thresholds)
   - [7. Reconstructing False Positive m6A Landscapes via Random Capture of High-Coverage Consensus Sequences](#7-Reconstructing-False-Positive-m6A-Landscapes-via-Random-Capture-of-High-Coverage-Consensus-Sequences)
 - [Dependencies and versions](#Dependencies-and-versions)
 - [Citation](#Citation) 
@@ -131,7 +131,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for visualizing top 2 features can be found in `./code/top2features.R`. The resulting performances are stored in `./rds/top2features.rds`.
 
-### 4. m6ACali: An Accurate Identifier for False Positive m6A Sites
+### 4. m6ACali An Accurate Identifier for False Positive m6A Sites
 4.1. Build up the final models
 
 - We selectively honed in on the top-performing genomic features that yielded the maximum AUC in our Random Forest models.
@@ -162,7 +162,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for cross validation can be found in `./code/cross_validation.R`. The resulting performances are stored in `./rds/cross_validation.rds`.
 
-### 5. m6ACali's Broad Applicability: Independent Datasets and Novel Techniques
+### 5. Broad Applicability on Independent Datasets and Novel Techniques
 
 *To evaluate the utility of m6ACali with novel antibody-based datasets, we deployed the model across 24 MeRIP-Seq and 25 single-base resolution samples.*
 
@@ -186,7 +186,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for validation of predicted FP can be found in `./code/cali_befo_aft.R` ("Validation of predicted false positives" part).
 
-### 6. m6ACali's Enhanced Performance under Stringent Thresholds
+### 6. Enhanced Performance under Stringent Thresholds
 
 6.1. Distribution of high-confidence m6A sites
 
