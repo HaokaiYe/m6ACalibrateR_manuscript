@@ -131,7 +131,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for visualizing top 2 features can be found in `./code/top2features.R`. The resulting performances are stored in `./rds/top2features.rds`.
 
-### 4. m6ACali An Accurate Identifier for False Positive m6A Sites
+### 4. m6ACali: An Accurate Identifier for False Positive m6A Sites
 4.1. Build up the final models
 
 - We selectively honed in on the top-performing genomic features that yielded the maximum AUC in our Random Forest models.
