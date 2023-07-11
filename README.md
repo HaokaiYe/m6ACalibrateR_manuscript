@@ -1,4 +1,4 @@
-# M6A-Cali: Machine Learning-Based Calibration of m6A Epitranscriptome Mapping that Corrects Antibody Non-specific Binding
+# M6A-Cali: Machine Learning-Based Calibration of m6A Epitranscriptome Mapping that Corrects Non-specific Antibody Binding
 
 <p align="center">
   <img src="./plots/Geographic%20abstract.png" width="700" alt="Graphical abstract">
@@ -7,13 +7,13 @@
 ## Table of Contents 
 - [Background](#Background)
 - [Workflow](#Workflow)
-  - [1. Training Data used in m6ACali](#1-Training-Data-used-in-m6ACali)
-  - [2. Comparing Performance of ML Models and Feature Sets](#2-Comparing-Performance-of-ML-models-and-feature-sets)
-  - [3. Impact of Exon Length and mRNA Length on Identifying False Positive m6A](#3-Impact-of-Exon-Length-and-mRNA-Length-on-Identifying-False-Positive-m6A)
-  - [4. m6ACali Accurately Identifies False Positive m6A Sites](#4-m6ACali-Accurately-Identifies-False-Positive-m6A-Sites)
-  - [5. m6ACali Generalizes to Independent Datasets and New Techniques](#5-m6ACali-Generalizes-to-Independent-Datasets-and-New-Techniques)
-  - [6. m6ACali Achieves Higher Performance under Rigorous Threshold](#6-m6ACali-Achieves-Higher-Performance-under-Rigorous-Threshold)
-  - [7. Randomly Capturing High-coverage Consensus Sequences to Reconstruct False Positive m6A Landscapes](#7-Randomly-Capturing-High-coverage-Consensus-Sequences-to-Reconstruct-False-Positive-m6A-Landscapes)
+  - [1. Establishing the Training Data for m6ACali](#1-Establishing-the-Training-Data-for-m6ACali)
+  - [2. Evaluating the Efficacy of Various ML Models and Feature Sets](#2-Evaluating-the-Efficacy-of-Various-ML-Models-and-Feature-Sets)
+  - [3. Influence of Exon Length and mRNA Length in False Positive m6A Identification](#3-Influence-of-Exon-Length-and-mRNA-Length-in-False-Positive-m6A-Identification)
+  - [4. m6ACali: An Accurate Identifier for False Positive m6A Sites](#4-m6ACali-An-Accurate-Identifier-for-False-Positive-m6A-Sites)
+  - [5. m6ACali's Broad Applicability: Independent Datasets and Novel Techniques](#5-m6ACali's-Broad-Applicability-Independent-Datasets-and-Novel-Techniques)
+  - [6. m6ACali's Enhanced Performance under Stringent Thresholds](#6-m6ACali's-Enhanced-Performance-under-Stringent-Thresholds)
+  - [7. Reconstructing False Positive m6A Landscapes via Random Capture of High-Coverage Consensus Sequences](#7-Reconstructing-False-Positive-m6A-Landscapes-via-Random-Capture-of-High-Coverage-Consensus-Sequences)
 - [Dependencies and versions](#Dependencies-and-versions)
 - [Citation](#Citation) 
 - [Contact](#Contact) 
