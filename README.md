@@ -1,9 +1,8 @@
 # M6A-Cali: Machine Learning-Based Calibration of m6A Epitranscriptome Mapping that Corrects Antibody Non-specific Binding
 
 <p align="center">
-  <img src="./figure/Graphical%20abstract.png" width="700" alt="Graphical abstract">
+  <img src="./plots/Geographic%20abstract.png" width="700" alt="Graphical abstract">
 </p>
-![image](https://github.com/HaokaiYe/m6ACalibrateR_manuscript/assets/60866857/bf058174-17be-46e1-9f6c-355cb5533312)
 
 ## Table of Contents 
 - [Background](#Background)
@@ -73,6 +72,9 @@ samtools view -S ~/sam/SRR14765584.sam -b > ~/bam/SRR14765584.bam
 > The code implementation for peak calling can be found in `./code/peak_calling.R`. The resulting peaks are stored in `./rds/peaks_IVT.rds` and `./rds/peaks_mRNA.rds`.
 
 ---
+<p align="center">
+  <img src="./plots/benchmark_dataset.png" alt="Benchmark dataset topology">
+</p>
 
 As IVT RNA can be assured to be devoid of any modifications, it can serve as a negative control for the mRNA sample. Therefore, modification sites identified exclusively in the mRNA sample were considered **true positives**, while all sites identified in the IVT sample were deemed **false positives**.
 
@@ -83,7 +85,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - We considered three popular machine learning models (GLM, XGBoost, and Random Forest) and selected the one that best performed on the benchmark datasets.
 
 <p align="center">
-  <img src="./figure/compare_models.png" alt="Compare models">
+  <img src="./plots/compare_models.png" alt="Compare models">
 </p>
 
 > The code implementation for comparing models can be found in `./code/compare_models.R`. The resulting performances are stored in `./rds/compare_models.rds`.
@@ -102,7 +104,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - The extracted genomic properties for each region include an overlapping index, region length, distance to the regions’ 5'/3' ends, and relative positions of annotations within regions (0 for left most and 1 for right most).
  
 <p align="center">
-  <img src="./figure/compare_feature_sets.png" alt="Compare feature sets">
+  <img src="./plots/compare_feature_sets.png" alt="Compare feature sets">
 </p>
 
 > The code implementation for comparing feature sets can be found in `./code/compare_feature_sets.R`. The resulting performances are stored in `./rds/compare_feature_sets.rds`.
@@ -113,11 +115,19 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 - We implemented reverse feature selection to reduce the dimensionality of the data and identify the most effective genomic features for calibrating m6A sites.
 
+<p align="center">
+  <img src="./plots/feature_selection.png" alt="Feature selection">
+</p>
+
 > The code implementation for feature selection can be found in `./code/feature_selection.R`. The resulting performances are stored in `./rds/feature_selection.rds`.
 
 3.2. Feature maps of the top 2 predictors
 
 - The top two features (exon length and mRNA length) consistently explained the most significant portion of the model performances.
+
+<p align="center">
+  <img src="./plots/top2features.png" alt="Top 2 features">
+</p>
 
 > The code implementation for visualizing top 2 features can be found in `./code/top2features.R`. The resulting performances are stored in `./rds/top2features.rds`.
 
@@ -126,17 +136,29 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 - We only selected the top genomic features that give the maximum AUC in each Random Forest model.
 
+<p align="center">
+  <img src="./plots/final_models.png" alt="Final models">
+</p>
+
 > The code implementation for cross validation can be found in `./code/final_models.R`. The resulting performances are stored in `./rds/final_models.rds`.
 
 4.2. Thorough analysis across DRACH motifs
 
 - We carried out a thorough analysis across all DRACH consensus motifs 
 
+<p align="center">
+  <img src="./plots/thorough_motifs.png" alt="Thorough motifs">
+</p>
+
 > The code implementation for thorough DRACH analysis can be found in `./code/color_code.R`.
 
 4.3. Cross validation
 
 - We conducted cross-validation on benchmark datasets to assess the generalizability of the classifiers.
+
+<p align="center">
+  <img src="./plots/cross_validation.png" alt="Cross validation">
+</p>
 
 > The code implementation for cross validation can be found in `./code/cross_validation.R`. The resulting performances are stored in `./rds/cross_validation.rds`.
 
@@ -148,11 +170,19 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 - In light of the potential for non-specific antibody binding to induce false positives in antibody-dependent data, our objective was to examine the efficacy of our calibration model in enhancing the consistency of m6A site detection with antibody-independent data. 
 
+<p align="center">
+  <img src="./plots/consistency.png" alt="Consistency">
+</p>
+
 > The code implementation for consistency can be found in `./code/consistency.R`. The resulting performances are stored in `./rds/consistency.rds`.
 
 5.2. Validation of predicted false positives 
 
 - Most of the predicted FPs in newly analyzed datasets were confirmed by in vitro transcribed (IVT) benchmark datasets, regardless of originating from different detection experiments.
+
+<p align="center">
+  <img src="./plots/FP_validation.png" alt="FP validation">
+</p>
 
 > The code implementation for validation of predicted FP can be found in `./code/cali_befo_aft.R` ("Validation of predicted false positives" part).
 
@@ -164,23 +194,30 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for distribution can be found in `./code/cali_befo_aft.R` ("Topology gradient" part).
 
+<p align="center">
+  <img src="./plots/topology_gradient.png" alt="Topology gradient">
+</p>
+
 6.2. Sensitivity of true m6A site identification
 
 - We turned to antibody-free data, which are devoid of non-specific antibody binding events, as the benchmark to assess our model's capacity in recognizing true m6A sites.
+
+<p align="center">
+  <img src="./plots/sensitivity.png" alt="Sensitivity">
+</p>
 
 > The code implementation for sensitivity can be found in `./code/cali_befo_aft.R` ("Sensitivity  gradient" and "Dot plot" parts).
 
 ### 7. Randomly Capturing High-coverage Consensus Sequences to Reconstruct False Positive m6A Landscapes
 
-7.1. Similar sequence content amongst true positive and false positive m6A sites
+**7.1. Similar sequence content amongst true positive and false positive m6A sites**
 
 7.1.1 LR models
 
 - We constructed a logistic regression for nucleotides surrounding the m6A site, represented by one-hot encoding, to calculate the coefficient value for each nucleotide at a given position.
 
 <p align="center">
-  <img src="./figure/HC_coefficients.png" alt="HC coefficients">
-  <img src="./figure/FP_coefficients.png" alt="FP coefficients">
+  <img src="./plots/nucleotides.png" alt="Nucleotides">
 </p>
 
 7.1.2 Correlation test
@@ -188,7 +225,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - We then employed correlation tests `R = 0.7472, rho = 0.7947` to verify the correlation between logistic regression coefficients fitted on high-confidence sites and false-positive sites.
  
 <p align="center">
-  <img src="./figure/cor_test.png" alt="Correlation test.png">
+  <img src="./plots/cor_test.png" alt="Correlation test">
 </p>
 
 7.1.3 Chi-squared test
@@ -202,7 +239,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for analyzing the sequence content can be found in `./code/coefficients.R`.
 
-7.2. Reconstruction of false positive m6A landscapes
+**7.2. Reconstruction of false positive m6A landscapes**
 
 7.2.1 Quantifying mapped reads
 
@@ -212,9 +249,15 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 - To depict a more realistic scenario, we directed our attention towards DRACH motifs with high-coverage (non-methylated motifs with read count in input samples exceeding the average count of true positive m6A sites).
 
+> The code implementation for establishing high-coverage motifs can be found in `./code/cali_befo_aft.R` ("FP read count & FP prob (gradient)" part).
+
 7.2.3 Metagene plot
 
 - We surmise that the generation mechanism of FP might be interpreted as m6A-specific antibodies randomly capturing consensus sequences, where the probability of this capture is further influenced by the read coverage.
+ 
+<p align="center">
+  <img src="./plots/FP_topology.png" alt="FP topology">
+</p>
 
 > The code implementation for metagene plot can be found in `./code/FP_topologys.R`.
 
