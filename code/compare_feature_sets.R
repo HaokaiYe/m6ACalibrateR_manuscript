@@ -104,10 +104,10 @@ h2o_pred_seq <- as.data.frame(h2o.predict(h2o_fit_seq, newdata = h2o_testing_set
 h2o_pred_seq_auc = roc(testing_set_seq$class, h2o_pred_seq$p0)
 
 # Calculate ROC and PR curves
-seq_fg <- h2o_pred_seq$p0[testing_set_seq$class == 1]
-seq_bg <- h2o_pred_seq$p0[testing_set_seq$class == 0]
-seq_roc <- roc.curve(scores.class0 = seq_bg, scores.class1 = seq_fg, curve = T)
-seq_pr <- pr.curve(scores.class0 = seq_bg, scores.class1 = seq_fg, curve = T)
+seq_fg <- h2o_pred_seq$p1[testing_set_seq$class == 1]
+seq_bg <- h2o_pred_seq$p1[testing_set_seq$class == 0]
+seq_roc <- roc.curve(scores.class0 = seq_fg, scores.class1 = seq_bg, curve = T)
+seq_pr <- pr.curve(scores.class0 = seq_fg, scores.class1 = seq_bg, curve = T)
 
 ##############################################################
 ####                          geo                         ####
@@ -117,10 +117,10 @@ h2o_pred_geo <- as.data.frame(h2o.predict(h2o_fit_geo, newdata = h2o_testing_set
 h2o_pred_geo_auc = roc(testing_set_geo$class, h2o_pred_geo$p0)
 
 # Calculate ROC and PR curves
-geo_fg <- h2o_pred_geo$p0[testing_set_geo$class == 1]
-geo_bg <- h2o_pred_geo$p0[testing_set_geo$class == 0]
-geo_roc <- roc.curve(scores.class0 = geo_bg, scores.class1 = geo_fg, curve = T)
-geo_pr <- pr.curve(scores.class0 = geo_bg, scores.class1 = geo_fg, curve = T)
+geo_fg <- h2o_pred_geo$p1[testing_set_geo$class == 1]
+geo_bg <- h2o_pred_geo$p1[testing_set_geo$class == 0]
+geo_roc <- roc.curve(scores.class0 = geo_fg, scores.class1 = geo_bg, curve = T)
+geo_pr <- pr.curve(scores.class0 = geo_fg, scores.class1 = geo_bg, curve = T)
 
 ##############################################################
 ####                       seq + geo                      ####
@@ -130,10 +130,10 @@ h2o_pred_seq_geo <- as.data.frame(h2o.predict(h2o_fit_seq_geo, newdata = h2o_tes
 h2o_pred_seq_geo_auc = roc(testing_set_seq_geo$class, h2o_pred_seq_geo$p0)
 
 # Calculate ROC and PR curves
-seq_geo_fg <- h2o_pred_seq_geo$p0[testing_set_seq_geo$class == 1]
-seq_geo_bg <- h2o_pred_seq_geo$p0[testing_set_seq_geo$class == 0]
-seq_geo_roc <- roc.curve(scores.class0 = seq_geo_bg, scores.class1 = seq_geo_fg, curve = T)
-seq_geo_pr <- pr.curve(scores.class0 = seq_geo_bg, scores.class1 = seq_geo_fg, curve = T)
+seq_geo_fg <- h2o_pred_seq_geo$p1[testing_set_seq_geo$class == 1]
+seq_geo_bg <- h2o_pred_seq_geo$p1[testing_set_seq_geo$class == 0]
+seq_geo_roc <- roc.curve(scores.class0 = seq_geo_fg, scores.class1 = seq_geo_bg, curve = T)
+seq_geo_pr <- pr.curve(scores.class0 = seq_geo_fg, scores.class1 = seq_geo_bg, curve = T)
 
 
 ##############################################################
@@ -187,13 +187,12 @@ ggplot(roc_df, aes(x = X1, y = X2, color = class)) +
                                       "#E39CB1",
                                       "#EFDA8E"),
                            breaks = c("Geo", "Seq", "Seq+Geo"), 
-                           labels = c("Geo (AUC = 0.97)", "Seq (AUC = 0.59)", "Seq+Geo (AUC = 0.91)"))
+                           labels = c("Geo (AUC = 0.97)", "Seq (AUC = 0.60)", "Seq+Geo (AUC = 0.92)"))
 
 ggsave("~/plots/cs_fea_roc.pdf", width = 3.2, height = 3)
 
 # PR curve
-pr_df_clean = pr_df[-c(56493:56722),]
-ggplot(pr_df_clean, aes(x = X1, y = X2, color = class)) + 
+ggplot(pr_df, aes(x = X1, y = X2, color = class)) + 
         geom_line() + 
         xlab("Recall") + 
         ylab("Precision") +
@@ -212,7 +211,7 @@ ggplot(pr_df_clean, aes(x = X1, y = X2, color = class)) +
                                       "#E39CB1",
                                       "#EFDA8E"),
                            breaks = c("Geo", "Seq", "Seq+Geo"), 
-                           labels = c("Geo (AP = 0.95)", "Seq (AP = 0.49)", "Seq+Geo (AP = 0.88)"))
+                           labels = c("Geo (AP = 0.98)", "Seq (AP = 0.69)", "Seq+Geo (AP = 0.94)"))
 
 ggsave("~/plots/cs_fea_prc.pdf", width = 3.2, height = 3)
 

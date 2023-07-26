@@ -72,10 +72,10 @@ rf_pred <- predict(rf_model, newdata = testing_set_geo, type = "prob")
 rf_auc = roc(testing_set_geo$class, rf_pred[,1])
 
 # Calculate AUPRC and AUROC using the PRROC package
-fg <- rf_pred[,1][testing_set_geo$class == 1]
-bg <- rf_pred[,1][testing_set_geo$class == 0]
-roc <- roc.curve(scores.class0 = bg, scores.class1 = fg, curve = T)
-pr <- pr.curve(scores.class0 = bg, scores.class1 = fg, curve = T)
+fg <- rf_pred[,2][testing_set_geo$class == 1]
+bg <- rf_pred[,2][testing_set_geo$class == 0]
+roc <- roc.curve(scores.class0 = fg, scores.class1 = bg, curve = T)
+pr <- pr.curve(scores.class0 = fg, scores.class1 = bg, curve = T)
 
 ### save
 results <- list(rf_auc, roc, pr)
@@ -134,7 +134,7 @@ ggplot(final_models$PR, aes(x = X1, y = X2, color = class)) +
                                 "#d75427",
                                 "darkolivegreen4"),
                      breaks = c("Abcam", "NEB", "SYSY", "Mouse"), 
-                     labels = c("Abcam (AP = 0.9864)", "NEB (AP = 0.9645)", "SYSY (AP = 0.9772)", "Mouse (AP = 0.9684)"))
+                     labels = c("Abcam (AP = 0.9419)", "NEB (AP = 0.9959)", "SYSY (AP = 0.9900)", "Mouse (AP = 0.9941)"))
 
 ggsave("~/plots/AUPRC.pdf", width = 3.2, height = 2.8)
 

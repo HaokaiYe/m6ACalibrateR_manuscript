@@ -82,10 +82,10 @@ h2o_pred_glm <- as.data.frame(h2o.predict(h2o_fit_glm, newdata = h2o_testing_set
 h2o_pred_glm_roc = roc(testing_set$class, h2o_pred_glm$p0)
 
 # Calculate ROC and PR curves
-glm_fg <- h2o_pred_glm$p0[testing_set$class == 1]
-glm_bg <- h2o_pred_glm$p0[testing_set$class == 0]
-glm_roc <- roc.curve(scores.class0 = glm_bg, scores.class1 = glm_fg, curve = T)
-glm_pr <- pr.curve(scores.class0 = glm_bg, scores.class1 = glm_fg, curve = T)
+glm_fg <- h2o_pred_glm$p1[testing_set$class == 1]
+glm_bg <- h2o_pred_glm$p1[testing_set$class == 0]
+glm_roc <- roc.curve(scores.class0 = glm_fg, scores.class1 = glm_bg, curve = T)
+glm_pr <- pr.curve(scores.class0 = glm_fg, scores.class1 = glm_bg, curve = T)
 
 ##############################################################
 ####                        xgboost                       ####
@@ -95,34 +95,49 @@ h2o_pred_xgboost <- as.data.frame(h2o.predict(h2o_fit_xgboost, newdata = h2o_tes
 h2o_pred_xgboost_auc = roc(testing_set$class, h2o_pred_xgboost$p0)
 
 # Calculate ROC and PR curves
-xgboost_fg <- h2o_pred_xgboost$p0[testing_set$class == 1]
-xgboost_bg <- h2o_pred_xgboost$p0[testing_set$class == 0]
-xgboost_roc <- roc.curve(scores.class0 = xgboost_bg, scores.class1 = xgboost_fg, curve = T)
-xgboost_pr <- pr.curve(scores.class0 = xgboost_bg, scores.class1 = xgboost_fg, curve = T)
+xgboost_fg <- h2o_pred_xgboost$p1[testing_set$class == 1]
+xgboost_bg <- h2o_pred_xgboost$p1[testing_set$class == 0]
+xgboost_roc <- roc.curve(scores.class0 = xgboost_fg, scores.class1 = xgboost_bg, curve = T)
+xgboost_pr <- pr.curve(scores.class0 = xgboost_fg, scores.class1 = xgboost_bg, curve = T)
 
 ##############################################################
-####                          glm                         ####
+####                      randomForest                    ####
 ##############################################################
-# randomForest
 h2o_fit_rf <- h2o.randomForest(y = "class", training_frame = h2o_training_set)
 h2o_pred_rf <- as.data.frame(h2o.predict(h2o_fit_rf, newdata = h2o_testing_set))
 h2o_pred_rf_auc = roc(testing_set$class, h2o_pred_rf$p0)
 
 # Calculate ROC and PR curves
-rf_fg <- h2o_pred_rf$p0[testing_set$class == 1]
-rf_bg <- h2o_pred_rf$p0[testing_set$class == 0]
-rf_roc <- roc.curve(scores.class0 = rf_bg, scores.class1 = rf_fg, curve = T)
-rf_pr <- pr.curve(scores.class0 = rf_bg, scores.class1 = rf_fg, curve = T)
+rf_fg <- h2o_pred_rf$p1[testing_set$class == 1]
+rf_bg <- h2o_pred_rf$p1[testing_set$class == 0]
+rf_roc <- roc.curve(scores.class0 = rf_fg, scores.class1 = rf_bg, curve = T)
+rf_pr <- pr.curve(scores.class0 = rf_fg, scores.class1 = rf_bg, curve = T)
+
+##############################################################
+####                      deep learning                   ####
+##############################################################
+h2o_fit_dp <- h2o.deeplearning(y = "class", training_frame = h2o_training_set)
+h2o_pred_dp <- as.data.frame(h2o.predict(h2o_fit_dp, newdata = h2o_testing_set))
+h2o_pred_dp_roc = roc(testing_set$class, h2o_pred_dp$p0)
+
+# Calculate ROC and PR curves
+dp_fg <- h2o_pred_dp$p1[testing_set$class == 1]
+dp_bg <- h2o_pred_dp$p1[testing_set$class == 0]
+dp_roc <- roc.curve(scores.class0 = dp_fg, scores.class1 = dp_bg, curve = T)
+dp_pr <- pr.curve(scores.class0 = dp_fg, scores.class1 = dp_bg, curve = T)
+
 
 ##############################################################
 ####                          save                        ####
 ##############################################################
 results <- list(h2o_pred_glm_roc, glm_roc, glm_pr,
                 h2o_pred_xgboost_roc, xgboost_roc, xgboost_pr,
-                h2o_pred_rf_roc, rf_roc, rf_pr)
+                h2o_pred_rf_roc, rf_roc, rf_pr,
+                h2o_pred_dp_roc, dp_roc, dp_pr)
 names(results) <- c("glm_pROC_roc", "glm_PRROC_roc", "glm_PRROC_rf",
                     "xgboost_pROC_roc", "xgboost_PRROC_roc", "xgboost_PRROC_rf",
-                    "rf_pROC_roc", "rf_PRROC_roc", "rf_PRROC_rf")
+                    "rf_pROC_roc", "rf_PRROC_roc", "rf_PRROC_rf",
+                    "dp_pROC_roc", "dp_PRROC_roc", "dp_PRROC_rf")
 
 saveRDS(results, "./rds/compare_models.rds")
 
@@ -138,12 +153,14 @@ compare_models <- readRDS("./rds/compare_models.rds")
 
 roc_df = rbind(data.frame(compare_models$glm_PRROC_roc$curve, class = rep("GLM", nrow(compare_models$glm_PRROC_roc$curve))),
                data.frame(compare_models$xgboost_PRROC_roc$curve, class = rep("XGBoost", nrow(compare_models$xgboost_PRROC_roc$curve))),
-               data.frame(compare_models$rf_PRROC_roc$curve, class = rep("RF", nrow(compare_models$rf_PRROC_roc$curve))))
+               data.frame(compare_models$rf_PRROC_roc$curve, class = rep("RF", nrow(compare_models$rf_PRROC_roc$curve))),
+               data.frame(compare_models$dp_PRROC_roc$curve, class = rep("DL", nrow(compare_models$dp_PRROC_roc$curve))))
 
 
 pr_df = rbind(data.frame(compare_models$glm_PRROC_rf$curve, class = rep("GLM", nrow(compare_models$glm_PRROC_rf$curve))),
               data.frame(compare_models$xgboost_PRROC_rf$curve, class = rep("XGBoost", nrow(compare_models$xgboost_PRROC_rf$curve))),
-              data.frame(compare_models$rf_PRROC_rf$curve, class = rep("RF", nrow(compare_models$rf_PRROC_rf$curve))))
+              data.frame(compare_models$rf_PRROC_rf$curve, class = rep("RF", nrow(compare_models$rf_PRROC_rf$curve))),
+              data.frame(compare_models$dp_PRROC_rf$curve, class = rep("DL", nrow(compare_models$dp_PRROC_rf$curve))))
 
 
 # ROC curve
@@ -158,20 +175,21 @@ ggplot(roc_df, aes(x = X1, y = X2, color = class)) +
               panel.grid.minor = element_blank(),
               axis.title = element_text(colour = "black", size = 12),
               axis.text = element_text(colour= "black", size = 10),
-              legend.position = c(0.63, 0.2),
+              legend.position = c(0.63, 0.25),
               legend.title=element_blank(),
               legend.background = element_blank(),
               legend.text=element_text(colour = "black", size = 10)) +
         scale_color_manual(values = c("#5E519B",
                                       "#76C6A5",
-                                      "#F47C42"),
-                           breaks = c("GLM", "RF", "XGBoost"), 
-                           labels = c("GLM (AUC = 0.82)", "RF (AUC = 0.91)", "XGBoost (AUC = 0.87)"))
+                                      "#F47C42",
+                                      "#900943"),
+                           breaks = c("DL", "GLM", "RF", "XGBoost"), 
+                           labels = c("DL (AUC = 0.83)", "GLM (AUC = 0.82)", "RF (AUC = 0.92)", "XGBoost (AUC = 0.87)"))
 
 ggsave("~//plots/cs_mod_roc.pdf", width = 3.2, height = 3)
 
 # PR curve
-pr_df_clean = pr_df[-c(56538:56730),]
+pr_df_clean = pr_df[-c(56500:56743),]
 ggplot(pr_df_clean, aes(x = X1, y = X2, color = class)) + 
         geom_line() + 
         xlab("Recall") + 
@@ -183,15 +201,16 @@ ggplot(pr_df_clean, aes(x = X1, y = X2, color = class)) +
               panel.grid.minor = element_blank(),
               axis.title = element_text(colour = "black", size = 12),
               axis.text = element_text(colour= "black", size = 10),
-              legend.position = c(0.4, 0.2),
+              legend.position = c(0.4, 0.25),
               legend.title=element_blank(),
               legend.background = element_blank(),
               legend.text=element_text(colour = "black", size = 10)) +
         scale_color_manual(values = c("#5E519B",
                                       "#76C6A5",
-                                      "#F47C42"),
-                           breaks = c("GLM", "RF", "XGBoost"), 
-                           labels = c("GLM (AP = 0.77)", "RF (AP = 0.88)", "XGBoost (AP = 0.83)"))
+                                      "#F47C42",
+                                      "#900943"),
+                           breaks = c("DL", "GLM", "RF", "XGBoost"), 
+                           labels = c("DL (AP = 0.87)", "GLM (AP = 0.85)", "RF (AP = 0.94)", "XGBoost (AP = 0.91)"))
 
 ggsave("~/plots/cs_mod_prc.pdf", width = 3.2, height = 3)
 
