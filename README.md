@@ -1,4 +1,4 @@
-# M6A-Cali: Machine Learning-Based Calibration of m6A Epitranscriptome Mapping that Corrects Non-specific Antibody Binding
+# m6ACali: An Advanced Machine Learning Framework for Enhancing Accuracy and Reproducibility in m6A Epi-transcriptome Profiling
 
 <p align="center">
   <img src="./plots/Geographic%20abstract.png" width="700" alt="Graphical abstract">
