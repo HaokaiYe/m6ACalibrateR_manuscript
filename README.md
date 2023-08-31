@@ -15,7 +15,7 @@
   - [6. m6ACali's Enhanced Performance under Stringent Thresholds](#6-Enhanced-Performance-under-Stringent-Thresholds)
   - [7. Reconstructing False Positive m6A Landscapes via Random Capture of High-Coverage Consensus Sequences](#7-Reconstructing-False-Positive-m6A-Landscapes-via-Random-Capture-of-High-Coverage-Consensus-Sequences)
 - [Dependencies and versions](#Dependencies-and-versions)
-- [Citation](#Citation) 
+- [Direct Calibration](#Direct-Calibration)
 - [Contact](#Contact) 
 
 
@@ -162,7 +162,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for cross validation can be found in `./code/cross_validation.R`. The resulting performances are stored in `./rds/cross_validation.rds`.
 
-### 5. Broad Applicability on Independent Datasets and Novel Techniques
+### 5. m6ACali's Broad Applicability: Independent Datasets and Novel Techniques
 
 *To evaluate the utility of m6ACali with novel antibody-based datasets, we deployed the model across 24 MeRIP-Seq and 25 single-base resolution samples.*
 
@@ -176,17 +176,17 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for consistency can be found in `./code/consistency.R`. The resulting performances are stored in `./rds/consistency.rds`.
 
-5.2. Validation of predicted false positives 
+5.2. Notable improvements in the m6A profiling pipeline
 
-- Most of the false positives predicted in these newly analyzed datasets were validated by our in vitro transcribed (IVT) benchmark datasets.
+- Incorporating m6ACali yielded a marked enhancement in the reliability of putative peaks.
 
 <p align="center">
-  <img src="./plots/FP_validation.png" alt="FP validation">
+  <img src="./plots/incorporating_m6ACali.png" alt="Incorporating m6ACali">
 </p>
 
-> The code implementation for validation of predicted FP can be found in `./code/cali_befo_aft.R` ("Validation of predicted false positives" part).
+> The code implementation for incorporating m6ACali can be found in `./code/m6A_profiling_pipeline.R`.
 
-### 6. Enhanced Performance under Stringent Thresholds
+### 6. m6ACali's Enhanced Performance under Stringent Thresholds
 
 6.1. Distribution of high-confidence m6A sites
 
@@ -264,7 +264,6 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 
 
-
 ## Dependencies and versions
 
 - Command-line tools
@@ -289,8 +288,8 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
     | h2o                                 | 3.34.0.3    | reshape2                            | 1.4.4       |
     | randomForest                        | 4.7.1.1     | rtracklayer                         | 1.52.1      |
 
-
-## Citation: 
+## Direct Calibration
+We've utilized m6ACali to predict the DRACH motifs on human hg38 exons. The results are compiled and available in `./DRACH_exon_hg38_calibration.zip`.
 
 ## Contact
 Please open an issue in the GitHub repo if you have any questions/doubts/suggestions about how to use this software. Thanks!
