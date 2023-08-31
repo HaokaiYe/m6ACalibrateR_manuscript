@@ -227,12 +227,11 @@ ggplot(perf_anti, aes(x = as.factor(cutoff), y = perc, fill = class)) +
                     name = NULL,
                     breaks = c("C", "A"),
                     labels = c("No   ", "Yes")) +
-  labs(x = "Calibration Threshold", y = expression(paste("Proportion of m"^6, "A sites")), title = "Overlap with Ground Truth") +
+  labs(x = "Calibration Threshold", y = "Percentage among sites predicted as TP by m6ACali", title = "Overlap with antibody-free data") +
   theme_classic() +
   theme(axis.text = element_text(colour= "black", size = 10),
         axis.text.x = element_text(angle = 35, vjust = 0.9, hjust = 0.8),
         axis.title = element_text(colour= "black", size = 12),
-        #plot.margin = margin(10, 16, 2, 0),
         legend.position = "top",
         legend.justification = "left",
         legend.box.just = "left",
@@ -346,7 +345,7 @@ gradient = ggplot(data.frame(x = 0:100, y = 0.5), aes(x = x, y = y, fill = facto
   geom_polygon(data = data.frame(x = c(-0.5, 100.5, 100.5),
                                  y = c(0, 0, 1)),
                aes(x = x, y = y), colour = "black", fill = NA, size = 0.8) +
-  xlab("Read coverage") +
+  xlab("Read coverage in RNA-Seq") +
   scale_x_continuous(breaks = c(-0.4,100.4), 
                      labels = c("1", "35475"), 
                      expand = expansion(mult = c(0, 0))) +
@@ -606,7 +605,7 @@ for (cutoff in cutoffs) {
 }
 
 ##############################################################
-####                  precision noly pos                  ####
+####                  precision only pos                  ####
 ##############################################################
 
 library(ggplot2)
@@ -622,22 +621,23 @@ dot = ggplot(data = precision_df, aes(x = After, y = Before)) +
   geom_pointdensity(size = 2.2, alpha = 0.7, show.legend = T) +
   scale_color_gradientn(colours = c("#4a95c5", "#2462ab", "#b31a2f", "#b31a2f"),
                         values = scales::rescale(c(0, 100, 200, 300))) +
-  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black", size = 1) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black", size = 0.8) +
   xlab("Post-Calibration Sensitivity") +
   ylab("Pre-Calibration Sensitivity") +
-  labs(color = "Sample Pairs Density") +
   scale_y_continuous(breaks = seq(0, 1, 0.2), limits = c(0, 1),expand = c(0, 0)) +
   scale_x_continuous(breaks = seq(0, 1, 0.2), limits = c(0, 1), expand = c(0, 0)) +
+  annotate('text', x = 0.56, y = 0.82, label = "Sample Pairs", size = 4.0, color = 'black', hjust = 0.5) +
   theme_classic() + 
   theme(axis.ticks = element_line(color = 'black'),
         axis.line = element_line(colour = "black"),
-        axis.text = element_text(colour = "black", size = 12),
+        axis.text = element_text(colour = "black", size = 10),
         axis.title = element_text(colour = "black", size = 12),
-        legend.position = c(0.32, 0.75),
-        legend.title = element_text(colour= "black", size = 12),
-        legend.text = element_text(colour= "black", size = 12),
+        legend.position = c(0.86, 0.3),
+        legend.title = element_blank(),
+        legend.text = element_text(colour= "black", size = 10),
         legend.background = element_blank(),
-        plot.margin = margin(5, 10, 5, 5))
+        plot.margin = margin(5, 10, 5, 5)) +
+  coord_flip()
 
 # histogram + density
 precision_befo = data.frame(precision = as.numeric(scores_1$recall_aft[c(50:64), c(1:24)]))
@@ -651,10 +651,9 @@ density_befo = ggplot(data = precision_befo, aes(x = precision)) +
   theme_classic() + 
   theme(axis.ticks = element_line(color = 'black'),
         axis.line = element_line(colour = "black"),
-        axis.text.x = element_text(colour= "black", size = 12),
-        axis.text.y = element_blank(),
-        axis.title = element_blank()) +
-  coord_flip()
+        axis.text.y = element_text(colour= "black", size = 10),
+        axis.text.x = element_blank(),
+        axis.title = element_blank())
 
 density_aft = ggplot(data = precision_aft, aes(x = precision)) +
   geom_histogram(bins = 40, alpha = 0.7, color = "white", fill = "#d66255") +
@@ -664,9 +663,10 @@ density_aft = ggplot(data = precision_aft, aes(x = precision)) +
   theme_classic() + 
   theme(axis.ticks = element_line(color = 'black'),
         axis.line = element_line(colour = "black"),
-        axis.text.y = element_text(colour= "black", size = 12),
-        axis.text.x = element_blank(),
-        axis.title = element_blank())
+        axis.text.x = element_text(colour= "black", size = 10),
+        axis.text.y = element_blank(),
+        axis.title = element_blank()) +
+  coord_flip()
 
 layout <- c(
   area(t = 0, l = 0, b = 15, r = 50),
@@ -675,6 +675,6 @@ layout <- c(
 )
 density_aft + dot + density_befo + plot_layout(design = layout)
 
-ggsave("~/plots/recallDot.pdf", width = 4.8, height = 4.3)
+ggsave("~/plots/recallDot.pdf", width = 4.75, height = 4.25)
 
 

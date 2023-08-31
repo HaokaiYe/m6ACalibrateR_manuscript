@@ -86,9 +86,9 @@ ggplot(bin_df, aes(x = index, y = 1, fill = color)) +
                                  y = c(0, 0, 0.4)),
                aes(x = x, y = y), fill = "#477ca8") +
   annotate("text", x = max(bin_df$index)/2, y = -0.15, 
-           label = "Prediction of false positives", 
+           label = "Prob of false positive (FP) predicted by m6ACali", 
            size = 3.6, colour = "black", hjust = 0.5) +
-  xlab(expression(paste("Detected true/false positive m"^6, "A by rank"))) +
+  xlab(expression(paste("Ranked high confidence / false positive m"^6, "A sites"))) +
   scale_x_continuous(breaks = c(min(bin_df$index), max(bin_df$index)), 
                      labels = c("2903280", "1"), 
                      position = "top",
