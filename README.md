@@ -1,4 +1,4 @@
-# m6ACali: An Advanced Machine Learning Framework for Enhancing Accuracy and Reproducibility in m6A Epi-transcriptome Profiling
+# m6ACali: Machine Learning-Powered Calibration for Accurate m6A Detection in MeRIP-Seq
 
 <p align="center">
   <img src="./plots/Geographic%20abstract.png" width="700" alt="Graphical abstract">
