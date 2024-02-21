@@ -127,7 +127,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - The top two features (exon length and mRNA length) consistently explained the most significant portion of the model performances.
 
 <p align="center">
-  <img src="./plots/top2features.png" alt="Top 2 features">
+  <img src="./plots/top2features.png" width="500" alt="Top 2 features">
 </p>
 
 > The code implementation for visualizing top 2 features can be found in `./code/top2features.R`. The resulting performances are stored in `./rds/top2features.rds`.
@@ -138,7 +138,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - We selectively honed in on the top-performing genomic features that yielded the maximum AUC in our Random Forest models.
 
 <p align="center">
-  <img src="./plots/final_models.png" alt="Final models">
+  <img src="./plots/final_models.png" width="500" alt="Final models">
 </p>
 
 > The code implementation for cross validation can be found in `./code/final_models.R`. The resulting performances are stored in `./rds/final_models.rds`.
