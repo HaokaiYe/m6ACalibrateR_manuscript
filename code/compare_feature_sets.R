@@ -20,6 +20,8 @@ bsgenome <- BSgenome.Hsapiens.UCSC.hg38
 peaks_mRNA <- readRDS("./rds/peaks_mRNA.rds")
 peaks_IVT <- readRDS("./rds/peaks_IVT.rds")
 
+windowSize = median(width(unlist(peaks_mRNA)))
+
 ################################################################################
 ####           Define true positives (TP) and false positives (FP)          ####
 ################################################################################
@@ -42,7 +44,7 @@ AP_gfeatures <- genomeDerivedFeatures(x = AP_grg,
                                       sequence = bsgenome)
 
 # AP sequence features
-AP_101_grg <- AP_grg + 50
+AP_101_grg <- AP_grg + (windowSize-1)/2
 
 AP_seq_onehot <- sequenceDerivedFeatures(AP_101_grg, 
                                          bsgenome, 
