@@ -127,7 +127,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - The top two features (exon length and mRNA length) consistently explained the most significant portion of the model performances.
 
 <p align="center">
-  <img src="./plots/top2features.png" alt="Top 2 features">
+  <img src="./plots/top2features.png" width="700" alt="Top 2 features">
 </p>
 
 > The code implementation for visualizing top 2 features can be found in `./code/top2features.R`. The resulting performances are stored in `./rds/top2features.rds`.
@@ -138,7 +138,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - We selectively honed in on the top-performing genomic features that yielded the maximum AUC in our Random Forest models.
 
 <p align="center">
-  <img src="./plots/final_models.png" alt="Final models">
+  <img src="./plots/final_models.png" width="700" alt="Final models">
 </p>
 
 > The code implementation for cross validation can be found in `./code/final_models.R`. The resulting performances are stored in `./rds/final_models.rds`.
@@ -158,7 +158,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - We conducted cross-validation on benchmark datasets to assess the generalizability of the classifiers.
 
 <p align="center">
-  <img src="./plots/cross_validation.png" alt="Cross validation">
+  <img src="./plots/cross_validation.png" width="500" alt="Cross validation">
 </p>
 
 > The code implementation for cross validation can be found in `./code/cross_validation.R`. The resulting performances are stored in `./rds/cross_validation.rds`.
@@ -172,7 +172,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - In response to the likelihood of non-specific antibody binding introducing false positives in antibody-dependent data, our goal was to assess the effectiveness of our calibration model in boosting the consistency of m6A site detection when using antibody-independent data.
 
 <p align="center">
-  <img src="./plots/consistency.png" alt="Consistency">
+  <img src="./plots/consistency.png" width="500" alt="Consistency">
 </p>
 
 > The code implementation for consistency can be found in `./code/consistency.R`. The resulting performances are stored in `./rds/consistency.rds`.
@@ -204,7 +204,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - Subsequent to calibration, the top 2000 m6A sites with the greatest variance demonstrated a marked enrichment in Gene Ontology (GO) categories pertinent to biological processes and functions, signifying a substantial reduction in technical noise.
 
 <p align="center">
-  <img src="./plots/GO.png" alt="Gene Ontology">
+  <img src="./plots/GO.png" width="500" alt="Gene Ontology">
 </p>
 
 
