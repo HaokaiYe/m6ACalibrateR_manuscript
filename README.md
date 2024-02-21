@@ -186,33 +186,49 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for incorporating m6ACali can be found in `./code/m6A_profiling_pipeline.R`.
 
-### 6. m6ACali's Enhanced Performance under Stringent Thresholds
+### 6. Enhanced Biological Insight Through Tissue m6A Profile Calibration
 
-6.1. Distribution of high-confidence m6A sites
+6.1. Dispersion analysis 
 
-- After discarding false positives, we observed a significant enrichment of calibrated antibody-based m6A sites around stop codons — an enrichment that intensifies with stricter calibration parameters.
-
-> The code implementation for distribution can be found in `./code/cali_befo_aft.R` ("Topology gradient" part).
-
-<p align="center">
-  <img src="./plots/topology_gradient.png" alt="Topology gradient">
-</p>
-
-6.2. Sensitivity of true m6A site identification
-
-- We leveraged antibody-free data, devoid of non-specific antibody binding events, as a benchmark to evaluate our model's prowess in detecting genuine m6A sites.
+- Predicted off-target sites exhibited markedly greater variance across samples in m6A levels than high-confidence sites.
+- A significant portion of m6A sites with the highest variance were identified as likely off-targets, suggesting they predominantly constitute noise.
 
 <p align="center">
-  <img src="./plots/sensitivity.png" alt="Sensitivity">
+  <img src="./plots/dispersion.png" alt="Dispersion">
 </p>
 
-> The code implementation for sensitivity can be found in `./code/cali_befo_aft.R` ("Sensitivity  gradient" and "Dot plot" parts).
 
-### 7. Reconstructing False Positive m6A Landscapes via Random Capture of High-Coverage Consensus Sequences
+6.2. GO analysis 
 
-**7.1. Similar sequence content amongst true positive and false positive m6A sites**
+- Subsequent to calibration, the top 2000 m6A sites with the greatest variance demonstrated a marked enrichment in Gene Ontology (GO) categories pertinent to biological processes and functions, signifying a substantial reduction in technical noise.
 
-7.1.1 LR models
+<p align="center">
+  <img src="./plots/GO.png" alt="Gene Ontology">
+</p>
+
+
+> The code implementation for tissue m6A profiles can be found in `./code/homeData.R`.
+
+
+### 7. Improved Identification of m6A Methylation Alterations Following Methyltransferase Knockdown
+
+7.1. Correlation between m6A methylation and gene expression
+
+- Subsequent to the knockdown of m6A methyltransferases, we noted an enhanced negative correlation between gene expression and methylation at the differentially methylated peaks (DMPs) deemed high-confidence by m6ACali.
+- The majority of sites exhibiting elevated m6A levels post-writer knockdown were classified as off-target by m6ACali.
+
+<p align="center">
+  <img src="./plots/negCor.png" alt="Negative Correlation">
+</p>
+
+> The code implementation for negative correlation can be found in `./code/negCor.R`.
+
+
+### 8. Reconstructing False Positive m6A Landscapes via Random Capture of High-Coverage Consensus Sequences
+
+**8.1. Similar sequence content amongst true positive and false positive m6A sites**
+
+8.1.1 LR models
 
 - We constructed a logistic regression for nucleotides surrounding the m6A site, represented by one-hot encoding, to calculate the coefficient value for individual nucleotides at specific positions.
 
@@ -220,7 +236,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
   <img src="./plots/nucleotides.png" alt="Nucleotides">
 </p>
 
-7.1.2 Correlation test
+8.1.2 Correlation test
 
 - We then employed correlation tests `R = 0.7472, rho = 0.7947` to authenticated the correlation between logistic regression coefficients configured on high-confidence sites and those on false-positive sites.
  
@@ -228,7 +244,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
   <img src="./plots/cor_test.png" alt="Correlation test">
 </p>
 
-7.1.3 Chi-squared test
+8.1.3 Chi-squared test
 
 - We conducted a Chi-squared test `p = 2.155e-07` to evaluate the fit between observed frequencies and expected probabilities (1/4 for the same rank, 3/4 for different ranks), assuming a random association.
 
@@ -239,19 +255,19 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for analyzing the sequence content can be found in `./code/coefficients.R`.
 
-**7.2. Reconstruction of false positive m6A landscapes**
+**8.2. Reconstruction of false positive m6A landscapes**
 
-7.2.1 Quantifying mapped reads
+8.2.1 Quantifying mapped reads
 
 - We extracted DRACH motifs and proceeded to tally the reads overlapping each of these motifs.
 
-7.2.2 Establishing high-coverage motifs
+8.2.2 Establishing high-coverage motifs
 
 - For a more representative scenario, we focused on DRACH motifs with high-coverage (non-methylated motifs with read count in input samples exceeding the average count of true positive m6A sites).
 
 > The code implementation for establishing high-coverage motifs can be found in `./code/cali_befo_aft.R` ("FP read count & FP prob (gradient)" part).
 
-7.2.3 Metagene plot
+8.2.3 Metagene plot
 
 - We hypothesize that the emergence of false positives could be attributed to m6A-specific antibodies haphazardly capturing consensus sequences, the likelihood of which is further influenced by read coverage.
  
@@ -260,6 +276,8 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 </p>
 
 > The code implementation for metagene plot can be found in `./code/FP_topologys.R`.
+
+
 
 
 
