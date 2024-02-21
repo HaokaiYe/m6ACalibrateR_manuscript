@@ -158,7 +158,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - We conducted cross-validation on benchmark datasets to assess the generalizability of the classifiers.
 
 <p align="center">
-  <img src="./plots/cross_validation.png" width="700" alt="Cross validation">
+  <img src="./plots/cross_validation.png" width="500" alt="Cross validation">
 </p>
 
 > The code implementation for cross validation can be found in `./code/cross_validation.R`. The resulting performances are stored in `./rds/cross_validation.rds`.
