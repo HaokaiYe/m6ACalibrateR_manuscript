@@ -172,7 +172,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - In response to the likelihood of non-specific antibody binding introducing false positives in antibody-dependent data, our goal was to assess the effectiveness of our calibration model in boosting the consistency of m6A site detection when using antibody-independent data.
 
 <p align="center">
-  <img src="./plots/consistency.png" alt="Consistency">
+  <img src="./plots/consistency.png" width="500" alt="Consistency">
 </p>
 
 > The code implementation for consistency can be found in `./code/consistency.R`. The resulting performances are stored in `./rds/consistency.rds`.
@@ -204,7 +204,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 - Subsequent to calibration, the top 2000 m6A sites with the greatest variance demonstrated a marked enrichment in Gene Ontology (GO) categories pertinent to biological processes and functions, signifying a substantial reduction in technical noise.
 
 <p align="center">
-  <img src="./plots/GO.png" alt="Gene Ontology">
+  <img src="./plots/GO.png" width="500" alt="Gene Ontology">
 </p>
 
 
