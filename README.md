@@ -97,7 +97,7 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 2.2.1 Sequence-derived features
 
-- We encoded the sequence of the 50 base pairs upstream and downstream of the m6A site using one-hot encoding (e.g. A – [1, 0, 0, 0], U – [0, 1, 0, 0], C – [0, 0, 1, 0], G – [0, 0, 0, 1]).
+- We encoded the sequence of the the median peak size of the m6A using one-hot encoding (e.g. A – [1, 0, 0, 0], U – [0, 1, 0, 0], C – [0, 0, 1, 0], G – [0, 0, 0, 1]).
 
 2.2.2 Genome-derived features
 
