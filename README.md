@@ -224,6 +224,16 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 
 > The code implementation for negative correlation can be found in `./code/negCor.R`.
 
+7.2. Interpret dynamic methylation changes
+
+- Post-calibration, the differentially methylated peaks (DMPs) exhibited a greater proportion of directional consistency with biological expectations, as indicated by a negative log fold change (logFC < 0).
+- When compared to two other advanced m6A site prediction tools, WHISTLE and iM6A, the DMPs processed by m6ACali consistently showed a higher alignment with predicted biological alterations.
+
+<p align="center">
+  <img src="./plots/pDC.png" alt="Directional Consistency">
+</p>
+
+> The code implementation for dynamic changes can be found in `./code/pDC.R`.
 
 ### 8. Reconstructing False Positive m6A Landscapes via Random Capture of High-Coverage Consensus Sequences
 
@@ -277,9 +287,6 @@ As IVT RNA can be assured to be devoid of any modifications, it can serve as a n
 </p>
 
 > The code implementation for metagene plot can be found in `./code/FP_topologys.R`.
-
-
-
 
 
 
