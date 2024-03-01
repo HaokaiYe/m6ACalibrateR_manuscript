@@ -14,8 +14,15 @@ TP = motif_all[which(pred_df$mean_p0 <= 0.5),]
 ####                     ground truth                     ####
 ##############################################################
 
-single <- readRDS("~/rds/m6A_Atlas2_high_resolution_hg38.rds")
-groundTrt = single[single$Technique_Num >= 2]
+#single <- readRDS("~/rds/m6A_Atlas2_high_resolution_hg38.rds")
+#groundTrt = single[single$Technique_Num >= 2]
+#free = groundTrt
+library(openxlsx)
+glori = read.xlsx("~/rds/GLORI_HEK293T.xlsx")
+gloriGrg = GRanges(seqnames = glori$Chr,
+                   ranges = IRanges(glori$Sites, glori$Sites),
+                   strand = glori$Strand)
+groundTrt = gloriGrg
 free = groundTrt
 
 ##############################################################
