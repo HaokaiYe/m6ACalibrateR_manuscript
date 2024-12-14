@@ -3,14 +3,16 @@ library(ggplot2)
 library(patchwork)
 library(SummarizedExperiment)
 
-homoSE <- readRDS("~/rds/homoSE.rds")
+#homoSE <- readRDS("~/rds/homoSE.rds")
+homoSE_IP <- readRDS("~/rds/homoSE_IP.rds")
+homoSE_input <- readRDS("~/rds/homoSE_input.rds")
 
 ################################################################################
 ####                          variance of m6A level                         ####
 ################################################################################
 
-IPCount <- assays(homoSE)[["IP"]]
-inputCount <- assays(homoSE)[["input"]]
+IPCount <- assays(homoSE_IP)[["IP"]]
+inputCount <- assays(homoSE_input)[["input"]]
 
 # count + 1
 IPCountNorm = t(t(IPCount + 1)/colMeans(IPCount))
